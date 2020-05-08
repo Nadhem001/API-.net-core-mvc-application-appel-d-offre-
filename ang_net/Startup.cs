@@ -46,6 +46,9 @@ namespace ang_net
                 option.Password.RequiredUniqueChars =0;
                 option.Password.RequireUppercase = false;
                 option.Password.RequireNonAlphanumeric = false;
+                option.SignIn.RequireConfirmedEmail = true;
+                option.Lockout.MaxFailedAccessAttempts =3;
+                option.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10) ;
             }).AddEntityFrameworkStores<ang_netContext>()
             .AddDefaultTokenProviders();
         }

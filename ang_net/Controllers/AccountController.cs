@@ -19,11 +19,14 @@ namespace ang_net.Controllers
     {
         private readonly ang_netContext _db;
         private readonly UserManager<applicationUser> _manager;
+        private readonly SignInManager<applicationUser> _signInManager;
 
-        public AccountController(ang_netContext db, UserManager<applicationUser> manager)
+        public AccountController(ang_netContext db, UserManager<applicationUser> manager,
+            SignInManager<applicationUser> signInManager)
         {
             _db = db;
             _manager = manager;
+            _signInManager = signInManager;
         }
 
         [HttpPost]
@@ -121,7 +124,36 @@ namespace ang_net.Controllers
 
                 }
             }
-            
+
+        /**********************************************************/
+
+        [HttpPost]
+        [Route("Login")]
+        public async Task<IActionResult> Login(LoginModel model)
+        {
+            if (model == null)
+                return NotFound();
+
+            var user = await _manager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return NotFound("2");
+            if(!user.EmailConfirmed)
+            {
+                return Unauthorized("email is not confirmed yet !!!");
+            }
+            var result = await _signInManager.PasswordSignInAsync(user,model.Password,model.RememberMe,true);
+            if (result.Succeeded)
+            {
+                return Ok("Login Success");
+
+            }
+            else if(result.IsLockedOut)
+            {
+                return Unauthorized("user account is locked");
+
+            }
+            return StatusCode(StatusCodes.Status204NoContent);
+        }
 
     }
 }

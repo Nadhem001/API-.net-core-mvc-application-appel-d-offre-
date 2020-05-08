@@ -13,6 +13,6 @@ namespace ang_net.ModelViews
         [Required]
         public string Password { get; set; }
         [Required]
-        public string RememberMe { get; set; }
+        public bool RememberMe { get; set; }
     }
 }
