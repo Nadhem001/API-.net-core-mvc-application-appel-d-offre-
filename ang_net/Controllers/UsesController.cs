@@ -89,6 +89,7 @@ namespace ang_net.Controllers
 
         // DELETE: api/Uses/5
         [HttpDelete("{id}")]
+        
         public async Task<ActionResult<Use>> DeleteUse(int id)
         {
             var use = await _context.Use.FindAsync(id);

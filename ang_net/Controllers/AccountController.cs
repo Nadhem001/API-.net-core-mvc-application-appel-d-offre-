@@ -7,14 +7,19 @@ using System.Web;
 using ang_net.Models;
 using ang_net.ModelViews;
 using ang_net.services;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using SendGrid.Helpers.Mail;
 
 namespace ang_net.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("CrosPolicy")]
     public class AccountController : ControllerBase
     {
         private readonly ang_netContext _db;
@@ -27,6 +32,16 @@ namespace ang_net.Controllers
             _db = db;
             _manager = manager;
             _signInManager = signInManager;
+        }
+        [HttpGet]
+        [Route("GetUse")]
+        public async Task<ActionResult<IEnumerable<applicationUser>>> GetUse()
+        {
+            
+            
+            return await _db.Users.ToListAsync();
+
+            // return BadRequest("1");
         }
 
         [HttpPost]
@@ -59,7 +74,7 @@ namespace ang_net.Controllers
 
 
                 var result = await _manager.CreateAsync(user,model.Password);
-                if (result.Succeeded)
+               if (result.Succeeded)
                 {
                     //localhost:49689/api/account/RegistrationConfirm?ID=545435&Token=541298875465
                     var token = await _manager.GenerateEmailConfirmationTokenAsync(user);
