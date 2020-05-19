@@ -33,6 +33,7 @@ namespace ang_net.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Use>> GetUse(int id)
         {
+            
             var use = await _context.Use.FindAsync(id);
 
             if (use == null)
@@ -46,12 +47,14 @@ namespace ang_net.Controllers
         // PUT: api/Uses/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
+        
         [HttpPut("{id}")]
+        
         public async Task<IActionResult> PutUse(int id, Use use)
         {
             if (id != use.Id)
             {
-                return BadRequest();
+                return BadRequest("id est "+id);
             }
 
             _context.Entry(use).State = EntityState.Modified;

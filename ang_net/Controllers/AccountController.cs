@@ -154,7 +154,7 @@ namespace ang_net.Controllers
                 return NotFound("2");
             if(!user.EmailConfirmed)
             {
-                return Unauthorized("email is not confirmed yet !!!");
+                return Unauthorized("email is not confirmed !!!");
             }
             var result = await _signInManager.PasswordSignInAsync(user,model.Password,model.RememberMe,true);
             if (result.Succeeded)
