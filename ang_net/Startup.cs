@@ -27,7 +27,7 @@ namespace ang_net
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            
             services.AddDbContext<ang_netContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("ang_net"));
@@ -47,7 +47,7 @@ namespace ang_net
                 option.Password.RequireUppercase = false;
                 option.Password.RequireNonAlphanumeric = false;
                 option.SignIn.RequireConfirmedEmail = true;
-                option.Lockout.MaxFailedAccessAttempts =3;
+                option.Lockout.MaxFailedAccessAttempts =10;
                 option.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10) ;
             }).AddEntityFrameworkStores<ang_netContext>()
             .AddDefaultTokenProviders();

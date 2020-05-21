@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using ang_net.Migrations;
 using ang_net.Models;
 using ang_net.ModelViews;
 using ang_net.services;
@@ -46,6 +47,7 @@ namespace ang_net.Controllers
 
         [HttpPost]
         [Route("Register")]
+        [Produces("application/json")]
         public async Task<IActionResult> Register(RegistreModel model)
         {
             if (model == null)
@@ -144,6 +146,7 @@ namespace ang_net.Controllers
 
         [HttpPost]
         [Route("Login")]
+        [Produces("application/json")]
         public async Task<IActionResult> Login(LoginModel model)
         {
             if (model == null)
@@ -159,7 +162,8 @@ namespace ang_net.Controllers
             var result = await _signInManager.PasswordSignInAsync(user,model.Password,model.RememberMe,true);
             if (result.Succeeded)
             {
-                return Ok("Login Success");
+                var tokens = "ds";
+                return Created("Login Success",tokens);
 
             }
             else if(result.IsLockedOut)
@@ -171,4 +175,4 @@ namespace ang_net.Controllers
         }
 
     }
-}
+}   
